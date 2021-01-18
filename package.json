@@ -1,0 +1,29 @@
+{
+  "name": "bronzeage",
+  "version": "1.0.0",
+  "description": "A Bronze Age MMO.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/usevalue/BronzeAge.git"
+  },
+  "keywords": [
+    "mmo"
+  ],
+  "author": "James Pollars <bercilac@gmail.com>",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/usevalue/BronzeAge/issues"
+  },
+  "homepage": "https://github.com/usevalue/BronzeAge#readme",
+  "dependencies": {
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7"
+  }
+}
