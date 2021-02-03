@@ -1,7 +1,7 @@
 {
-  "name": "bronzeage",
+  "name": "OnSolarSails",
   "version": "1.0.0",
-  "description": "A Bronze Age MMO.",
+  "description": "Sci fi MMORTS.",
   "main": "index.js",
   "scripts": {
     "start": "node server/server.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/usevalue/BronzeAge.git"
+    "url": "git+https://github.com/usevalue/OnSolarSails.git"
   },
   "keywords": [
     "mmo"
@@ -18,12 +18,15 @@
   "author": "James Pollars <bercilac@gmail.com>",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
-    "url": "https://github.com/usevalue/BronzeAge/issues"
+    "url": "https://github.com/usevalue/OnSolarSails/issues"
   },
-  "homepage": "https://github.com/usevalue/BronzeAge#readme",
+  "homepage": "https://github.com/usevalue/OnSolarSails#readme",
   "dependencies": {
     "ejs": "^3.1.5",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "mongodb": "^3.6.3",
+    "mongoose": "^5.11.12",
     "nodemon": "^2.0.7"
   }
 }
