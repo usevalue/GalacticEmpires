@@ -1,0 +1,72 @@
+<html>
+
+<head>
+    <title>A people is taking to the stars...</title>
+    <%- include('header.ejs') %>
+</head>
+
+<body>
+    
+<script language="javascript">
+var homeworld = '<%= data.homeworld %>';
+</script>
+
+<i><p>Greetings and Welcome to <u>On Solar Sails</u>, the game of galactic exploration and settlement.  Each player in the game plays as a <b>Civilization</b> taking its first steps beyond its star system.  Begin by creating your Civilization.</p>
+
+<div id="newhomeworld">
+<h3>Homeworld</h3>
+
+<p>Every galactic society has to start somewhere.  Tell me about your homeworld.</p></i>
+
+Our homeworld is called <input type="text" id="homeworldname"/>.<br/><br/>
+
+Compared to earth ca. 1960, the climate is <select id="climate">
+    <option value="temperate">Similar</option>
+    <option value="desert">Hotter and drier</option>
+    <option value="tropical">Hotter and wetter</option>
+    <option value="ice">Colder and drier</option>
+    <option value="winter">Colder and wetter</option>
+</select>.<br/><br/>
+
+We had no way of knowing it then, but in time we would learn that compared to other planets in the galaxy, our planet had a particularly <u>plentiful</u> supply of
+    <select id="surplus">
+        <option>Fuels</option>
+        <option>Metals</option>
+        <option>Water</option>
+    </select>, but a relative <u>scarcity</u> of
+    <select id="scarcity">
+        <option>Fuels</option>
+        <option>Metals</option>
+        <option>Water</option>
+    </select>.<br/><br/>
+
+<button id="submithomeworld">To the stars!</button>
+</div>
+
+<div id="newspecies" style="display:none">
+<h3>Species</h3>
+My people are called <input type='text' value='humans' id='noun_plural'/> (plural noun).<br/>
+One member of my species is called a(n) <input type='text' value='human' id='noun_singular' /> (singular noun).<br/>
+People, things, or qualities belonging to my species are called <input type='text' value='human' id='adjective' /> (adjective).
+<br/><br/>
+<button id="submitspecies">The whole Galaxy will know us.</button>
+</div>
+
+<div id="newgovernment" style="display:none">
+<h3>Government</h3>
+The full, official title for our government is <input id="fullgovname" value="The United Federation of Planets" />, though some just call it <input id="shortgovname" value="The Federation"/> (optional).
+<br/><br/>
+<button id="submitgovernment">Rule with an iron fist!</button>
+</div>
+
+<div id="finalize">
+Well done!  <a href="/game">Proceed...</a>
+</div>
+<script>
+    var worldfluff = '<%= data.world %>';
+    var speciesfluff = '<%= data.species %>';
+</script>
+<script src="/js/newcivilization.js"></script>
+</body>
+
+</html>
