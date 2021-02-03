@@ -65,9 +65,12 @@ const Species = mongoose.model("Species", speciesSchema, "Species")
 
 
 // PLANETS
-const populationSchema = new mongoose.Schema({
 
-});
+const populationSchema = new mongoose.Schema({
+    species:{
+      type: ObjectID,
+      required: true
+    });
 
 const resourceSchema = new mongoose.Schema({
 
