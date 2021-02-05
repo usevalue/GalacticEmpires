@@ -77,7 +77,11 @@ const resourceSchema = new mongoose.Schema({
 });
 
 const developmentSchema = new mongoose.Schema({
-
+    level: {
+	type: Number,
+	required: true,
+	default: 0
+    }
 });
 
 const planetSchema = new mongoose.Schema({
