@@ -1,0 +1,44 @@
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>OnSolarSails administration</title>
+    <%- include('includes/header.ejs') %>
+</head>
+
+<body>
+
+<div id="mainpanel">
+    <h3>Database checks</h3>
+    <ul id="databaseCheckers">
+        <li>Players</li>
+        <li>Planets</li>
+        <li>Species</li>
+    </ul>
+</div>
+
+<div id="report"></div>
+
+<script>
+
+    $(()=>{
+        $('#databaseCheckers > li').on('click',(e)=>{
+            let massQuery = e.target.textContent;
+            $.ajax({
+                type: 'GET',
+                url: 'fetchlist/'+massQuery,
+                success: (data) => {
+                    data.forEach(element => {
+                        console.log(element.name)
+                    });
+                },
+                error: (err) => {
+                    if(err) console.log(err);
+                }
+            })
+        })
+    })
+
+</script>
+
+</body>
+</html>

@@ -2,25 +2,7 @@ const { ObjectID } = require('mongodb');
 const mongoose = require('mongoose');
 
 
-// PLAYERS and general administration
 
-const playerSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        unique: true,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    isAdmin: {
-        type: Boolean,
-        default: false
-    }
-});
-
-const Player = mongoose.model("Player", playerSchema, "Players");
 
 // CRITTERS
 
@@ -61,7 +43,7 @@ const speciesSchema = new mongoose.Schema({
     }
 });
 
-const Species = mongoose.model("Species", speciesSchema, "Species")
+
 
 
 // PLANETS
@@ -70,7 +52,8 @@ const populationSchema = new mongoose.Schema({
     species:{
       type: ObjectID,
       required: true
-    });
+    }
+});
 
 const resourceSchema = new mongoose.Schema({
 
@@ -114,9 +97,20 @@ const planetSchema = new mongoose.Schema({
     },
 });
 
-const Planet = mongoose.model("Planet", planetSchema, "Planets");
 
 // GOVERNMENTS
+
+const intelschema = new mongoose.Schema({
+    planet: {
+        type: ObjectID,
+        required: true
+    },
+    level: {
+        type: Number,
+        min: 0,
+        max: 3,
+    }
+});
 
 const sovereignSchema = new mongoose.Schema({
     type: {
@@ -127,37 +121,65 @@ const sovereignSchema = new mongoose.Schema({
     name: {
         full: {
             type: String,
-            requried: true,
-            default: "The Planetary Government"
+            required: true,
+            default: "The Planetary Government",
+            unique: true
         },
         short: {
             type: String,
             required: false,
             default: "The Planetary Government"
         },
+    },
+    intelligence: {
+        type: [intelschema],
+        required: false,
     }
 })
 
 const civSchema = new mongoose.Schema({
     player: {
         type: ObjectID,
-        required: true,
-        unique: true
+        unique: true,
+        required: true
     },
     homeworld: {
-        type: ObjectID
+        type: ObjectID,
+        unique: true
     },
     founding_species: {
         type: ObjectID,
     },
     government: {
         type: sovereignSchema,
-        default: null
     },
 });
 
-const Government = mongoose.model("Government", sovereignSchema, "Governments");
+// PLAYERS and general administration
 
-const Civilization = mongoose.model("Civilization", civSchema, "Civilizations");
+const playerSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    email: {
+        type: String,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
+});
 
-module.exports = {Player, Species, Planet, Government, Civilization};
+const Species = mongoose.model("Species", speciesSchema, "Species")
+const Planet = mongoose.model("Planet", planetSchema, "Planets");
+const Civilization = mongoose.model("Civilization", civSchema, "Civilizations")
+const Player = mongoose.model("Player", playerSchema, "Players");
+
+module.exports = {Player, Species, Civilization, Planet};

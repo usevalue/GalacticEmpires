@@ -2,18 +2,18 @@
 
 <head>
     <title>A people is taking to the stars...</title>
-    <%- include('header.ejs') %>
+    <%- include('includes/header.ejs') %>
 </head>
 
 <body>
-    
-<script language="javascript">
-var homeworld = '<%= data.homeworld %>';
-</script>
-
+<%- include('includes/navbar.ejs') %>
+<h1 id="sofarsogood"></h1>
 <i><p>Greetings and Welcome to <u>On Solar Sails</u>, the game of galactic exploration and settlement.  Each player in the game plays as a <b>Civilization</b> taking its first steps beyond its star system.  Begin by creating your Civilization.</p>
 
-<div id="newhomeworld">
+
+<!-- HOMEWORLD  -->
+<div id="newhomeworld" style="display:none">
+
 <h3>Homeworld</h3>
 
 <p>Every galactic society has to start somewhere.  Tell me about your homeworld.</p></i>
@@ -24,7 +24,7 @@ Compared to earth ca. 1960, the climate is <select id="climate">
     <option value="temperate">Similar</option>
     <option value="desert">Hotter and drier</option>
     <option value="tropical">Hotter and wetter</option>
-    <option value="ice">Colder and drier</option>
+    <option value="desolate">Colder and drier</option>
     <option value="winter">Colder and wetter</option>
 </select>.<br/><br/>
 
@@ -41,8 +41,10 @@ We had no way of knowing it then, but in time we would learn that compared to ot
     </select>.<br/><br/>
 
 <button id="submithomeworld">To the stars!</button>
+
 </div>
 
+<!-- SPECIES -->
 <div id="newspecies" style="display:none">
 <h3>Species</h3>
 My people are called <input type='text' value='humans' id='noun_plural'/> (plural noun).<br/>
@@ -52,6 +54,7 @@ People, things, or qualities belonging to my species are called <input type='tex
 <button id="submitspecies">The whole Galaxy will know us.</button>
 </div>
 
+<!-- GOVERNMENT  -->
 <div id="newgovernment" style="display:none">
 <h3>Government</h3>
 The full, official title for our government is <input id="fullgovname" value="The United Federation of Planets" />, though some just call it <input id="shortgovname" value="The Federation"/> (optional).
@@ -59,14 +62,145 @@ The full, official title for our government is <input id="fullgovname" value="Th
 <button id="submitgovernment">Rule with an iron fist!</button>
 </div>
 
-<div id="finalize">
-Well done!  <a href="/game">Proceed...</a>
-</div>
-<script>
-    var worldfluff = '<%= data.world %>';
-    var speciesfluff = '<%= data.species %>';
-</script>
-<script src="/js/newcivilization.js"></script>
-</body>
+<!-- FINALIZE -->
 
+<div id="finalize" style="display:none">
+<h2><a href="/game/">BLAST OFF!</a></h2>
+</div>
+
+<script>
+
+var worldName='';
+//<% if(homeworld) { %>
+worldName = '<%= homeworld.name %>';
+//<% } %>
+var species='';
+//<% if(species) { %>
+species = '<%= species.adjective %>';
+//<% } %>
+var govname='';
+
+const updateProgress = ()=> {
+    var progress;
+    if(worldName=='') {
+        $('#newspecies').hide();
+        $('#newgovernment').hide();
+        $('#newhomeworld').show();
+        progress = "A new civilization is taking to the stars!"
+    }
+    else if (species=='') {
+        $('#newspecies').show();
+        $('#newgovernment').hide();
+        $('#newhomeworld').hide();
+        progress = "Our civilization was born on "+worldName+".";
+    }
+    else if(govname=='') {
+        $('#newspecies').hide();
+        $('#newgovernment').show();
+        $('#newhomeworld').hide();
+        progress = "<span style='text-transform: capitalize'>"+species+"</span> civilization was born on "+worldName+".";
+    }
+    else {
+        $('#newspecies').hide();
+        $('#newgovernment').hide();
+        $('#newhomeworld').hide();
+        progress=('Guided by '+govname+', '+species+' are setting out from '+worldname+'!');
+        $('finalize').show();
+    }
+    $('#sofarsogood').html(progress);
+}
+
+
+$(()=>{
+
+updateProgress();
+
+$('#submithomeworld').on('click', () => {
+    let wname = $('#homeworldname').val();
+    let worldclimate = $('#climate').val();
+    let surplus = $('#surplus').val();
+    let scarcity = $('#scarcity').val();
+    let problems = '';
+    if(wname=='') problems += 'Your homeworld needs a name. ';
+    if(wname=='Planet') problems += "Don't name your homeworld 'Planet.' ";
+    if(scarcity==surplus) problems += "You can't have both a scarcity AND a surplus of "+surplus+". ";
+    if((worldclimate=='desert') && surplus=='Water') problems += "A hot planet with a water surplus does not have a dry climate.";
+    if((worldclimate=='tropical' || worldclimate == 'winter')&&scarcity=='Water') problems += "Planets with a scarcity of water don't have wet climates.";
+    if(problems=='') {
+        let newworld = {
+            name: wname,
+            climate: worldclimate,
+            moreof: surplus,
+            lessof: scarcity};
+        console.log(newworld);
+        $.ajax({
+            url: 'newhomeworld',
+            type: 'POST',
+            data: newworld,
+            success: (data) => {
+                console.log(data);
+                worldName = newworld.name;
+                updateProgress();
+            },
+            error: (e) => {
+                console.log('ERROR!');
+                console.log(e);
+            }
+        });
+    }
+    else alert('There are some problems with your home world to fix! '+problems);
+});
+
+$('#submitspecies').on('click', () => {
+    let ns = $('#noun_singular').val();
+    let np = $('#noun_plural').val();
+    let adj = $('#adjective').val();
+    let problems = '';
+    // TODO: Species validation.
+    if (problems=='') {
+        let newspecies = {
+            noun_singular: ns,
+            noun_plural: np,
+            adjective: adj
+        };
+        console.log(newspecies);
+        $.ajax({
+            url: 'newspecies',
+            type: 'POST',
+            data: newspecies,
+            success: (data) => {
+                    $('#newspecies').hide();
+                    species=newspecies.noun_plural;
+                    updateProgress();
+            },
+            error: (e) => {
+                alert(e);
+            }
+        });
+    }
+    else alert('There were some problems with this species. '+problems);
+});
+
+$('#submitgovernment').on('click', () => {
+    let newgovernment = {
+        full: $('#fullgovname').val(),
+        short: $('#shortgovname').val()
+    }
+    $.ajax({
+        url: 'newgovernment',
+        type: 'POST',
+        data: newgovernment,
+        success: (reply) => {
+            console.log(reply);
+            $('#newgovernment').hide();
+            $('#finalize').show();
+        },
+        error: (err)=>{
+            console.log(err);
+        }
+    });
+});
+})
+</script>
+</body>
 </html>

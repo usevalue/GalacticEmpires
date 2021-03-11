@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <title>On Solar Sails</title>
+    <%- include('includes/header.ejs') %>
+</head>
+
+<body>
+
+<div id="leftcolumn">
+    &diam; <a href="/game/">Home system</a><br/>
+    &diam; <a href="/logout">Log out</a> 
+</div>
+
+<div id="midcolumn">
+    <h1 id="banner">Welcome home, commander.</h1>
+    <div id="viewingpanel">Look at what's going on here with some interaction</div>
+</div>
+
+<div id="rightcolumn">
+    <div id="statspanel">
+        Vital statistics on object of concern.
+    </div>
+    <div id="concernselector">
+        <div class="concern" name="planets">Planets</div>
+        <div class="concern" name="fleets">Fleets</div>
+    </div>
+</div>
+
+
+<script>
+
+
+const selectConcern = function(thisConcern) {
+    if(thisConcern!='profile') {
+        let actualconcern = thisConcern.target.attributes.name.value;
+        thisConcern = actualconcern;
+    }
+    $.ajax({
+        url: 'concern/'+thisConcern,
+        type: 'GET',
+        success: (response)=>{
+            console.log(response);
+            $('#viewingpanel').html(response);
+        },
+        error: (e)=>{
+            console.log(e);
+        }
+    });
+}
+
+$(()=>{
+    $('.concern').on('click',selectConcern);
+    selectConcern('profile');
+});
+    
+</script>
+
+</body>
+
+</html>
