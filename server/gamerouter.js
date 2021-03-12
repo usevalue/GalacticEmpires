@@ -63,7 +63,7 @@ gameRouter.get('/', gotCiv, async (req, res) => {
 
 gameRouter.get('/concern/:conc', async(req, res) => {
     try {
-        res.render(path.join('concerns/',req.params.conc))
+        res.render(path.join('concerns/',req.params.conc), {session: req.session})
     }
     catch(e) {
         console.log(e);

@@ -1,35 +1,18 @@
-#leftcolumn {
+#controlbar {
     position: absolute;
-    left: 4px;
-    right: 90%;
-    font-size: 1.5em;
+    top: 0px;
+    left: 0px;
+    width: 250px;
+    background-color: grey;
+    height: 100%
 }
-
-#leftcolumn > a {
-    font-size: 1em;
-    background-color: lightgray;
-    width: 100%;
-    color:green;
-    padding: 2px
-}
-#leftcolumn > a:visited {
-    color:green
-}
-
-#leftcolumn > a:hover {
-    color:red;
-    background-color: black;
-}
-
-
-
 
 #midcolumn {
     position: absolute;
-    left: 11%;
+    left: 250px;
     right: 16%;
     top: 0px;
-    margin-top: 0px
+    margin-top: 0px;
 }
 
 #banner {
@@ -39,40 +22,12 @@
     position: relative;
     top: 0px;
     margin-top: 0px;
-    margin-bottom: 0px
-}
-
-#viewingpanel {
-    border:pink;
-    border-width: 3px;
-    border-style: dashed;
-}
-
-
-
-#rightcolumn {
-    position: absolute;
-    top: 5px;
-    right: 4px;
-    left: 85%
-}
-
-
-
-
-
-
-
-
-#statspanel {
-    border-style: solid;
-    padding-left:4px;
-    padding-right:4px;
-    font-size: 1.2em
+    margin-bottom: 4px
 }
 
 .concern {
     text-align:center;
+    text-decoration: none;
     cursor: pointer;
     background-color:darkslateblue;
     color: white;
@@ -80,9 +35,30 @@
     padding-left:8px;
     padding-right:2px;
     padding-top:2px;
-    padding-bottom:2px
+    margin-left: 0px;
+    margin-right: 0px
 }
 .concern:hover {
     background-color: white;
     color:black
+}
+
+a.concern:hover {
+    color: black
+}
+
+.concern:visited {
+    color: white;
+}
+
+#links {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 0px
+}
+
+.concernbody {
+    margin-left: 4px;
+    margin-right: 4px;
 }

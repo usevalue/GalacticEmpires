@@ -7,23 +7,22 @@
 
 <body>
 
-<div id="leftcolumn">
-    &diam; <a href="/game/">Home system</a><br/>
-    &diam; <a href="/logout">Log out</a> 
-</div>
-
 <div id="midcolumn">
-    <h1 id="banner">Welcome home, commander.</h1>
-    <div id="viewingpanel">Look at what's going on here with some interaction</div>
+    <h1 id="banner">Loading...</h1>
 </div>
 
-<div id="rightcolumn">
-    <div id="statspanel">
-        Vital statistics on object of concern.
-    </div>
+<div id="controlbar">
+    <!-- <div id="logo">
+        LOGO of some sort
+    </div> -->
     <div id="concernselector">
+        <div class="concern" name="headquarters">H.Q.</div>
         <div class="concern" name="planets">Planets</div>
         <div class="concern" name="fleets">Fleets</div>
+        <div class="concern" name="intel">Intelligence</div>
+    </div>
+    <div id="links">
+        <a href="/logout" class="concern">Log out</a>
     </div>
 </div>
 
@@ -32,7 +31,7 @@
 
 
 const selectConcern = function(thisConcern) {
-    if(thisConcern!='profile') {
+    if(thisConcern!='headquarters') {
         let actualconcern = thisConcern.target.attributes.name.value;
         thisConcern = actualconcern;
     }
@@ -41,7 +40,7 @@ const selectConcern = function(thisConcern) {
         type: 'GET',
         success: (response)=>{
             console.log(response);
-            $('#viewingpanel').html(response);
+            $('#midcolumn').html(response);
         },
         error: (e)=>{
             console.log(e);
@@ -50,8 +49,8 @@ const selectConcern = function(thisConcern) {
 }
 
 $(()=>{
-    $('.concern').on('click',selectConcern);
-    selectConcern('profile');
+    $('#concernselector > .concern').on('click',selectConcern);
+    selectConcern('headquarters');
 });
     
 </script>
