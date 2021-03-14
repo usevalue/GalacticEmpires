@@ -3,41 +3,34 @@ const {Planet, Species, Player} = require('./models.js');
 
 const adminRouter = express.Router();
 
+adminRouter.use((req, res, next)=>{
+    if(req.session.isAdmin) next();
+    else res.redirect('/');
+});
+
 adminRouter.get('/', (req, res)=>{
    res.render('adminpanel', {data: req.session});
 });
 
-adminRouter.get('/fetchlist/Players', async (req, res)=> {
+adminRouter.get('/fetch/:type', async (req, res)=> {
     try {
-        var all = await Player.find({});
-        var report = []
-        all.forEach(element => {
-            report.push({
-                name: element.email,
-                civ: element.civilization
-            })
-        });
-        res.status(200).send(report);
-    }
-    catch (e) {
-        res.status(500).send(e);
-    }
-})
-
-adminRouter.get('/fetchlist/Planets', async (req, res)=> {
-    try {
-        var all = await Planet.find({});
-        res.status(200).send(all);
-    }
-    catch (e) {
-        res.status(500).send(e);
-    }
-})
-
-adminRouter.get('/fetchlist/Species', async (req, res)=> {
-    try {
-        var all = await Species.find({});
-        res.status(200).send(all);
+        var report;
+        switch (req.params.type) {
+            case 'players':
+                report = await Player.find({});
+                res.render('reports/players', {data: report})
+                break;
+            case 'planets':
+                report = await Planet.find({});
+                res.render('reports/planets', {data: report})
+                break;
+            case 'species':
+                report = await Species.find({});
+                res.render('reports/species', {data: report})
+                break;
+            default:
+                res.status(404);
+        }
     }
     catch (e) {
         res.status(500).send(e);

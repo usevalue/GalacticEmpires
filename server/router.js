@@ -28,6 +28,7 @@ requestRouter.post('/login', async (req,res) => {
                             req.session.authenticated = true;
                             req.session.username = result.username;
                             req.session.userid = result._id;
+                            req.session.isAdmin = result.isAdmin;
                             req.session.civ = await Civilization.findOne({player: result._id});
                             res.redirect('/game/');
                         }

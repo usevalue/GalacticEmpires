@@ -4,7 +4,7 @@ const http = require('http');
 const path = require('path');
 const mongoose = require('mongoose');
 const session = require('express-session');
-
+const dotenv = require('dotenv').config();
 
 // My modules
 const requestRouter = require('./router.js');
@@ -16,6 +16,7 @@ const dburl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/onsolarsails';
 mongoose.connect(dburl, {useNewUrlParser: true, useUnifiedTopology: true});
 
 // Server set-up
+console.log(process.env);
 const app = express();
 const clientPath = path.join(__dirname, '/../client/');
 app.use(express.static(path.join(clientPath,'static/')));

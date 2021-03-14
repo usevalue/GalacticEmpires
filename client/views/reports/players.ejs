@@ -1,0 +1,12 @@
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Is admin?</th>
+    </tr>
+<% data.forEach((element)=>{ %>
+<tr>
+<td><%= element.username %></td>
+<td><%= element.isAdmin %></td>
+</tr>
+<% }) %>
+</table>
