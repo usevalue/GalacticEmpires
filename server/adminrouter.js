@@ -3,9 +3,9 @@ const {Planet, Species, Player} = require('./models.js');
 
 const adminRouter = express.Router();
 
-//adminRouter.get('/', (req, res)=>{
-//    res.render('adminpanel', {data: req.session});
-//});
+adminRouter.get('/', (req, res)=>{
+   res.render('adminpanel', {data: req.session});
+});
 
 adminRouter.get('/fetchlist/Players', async (req, res)=> {
     try {
