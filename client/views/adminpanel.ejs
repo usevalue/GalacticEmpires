@@ -7,31 +7,33 @@
 
 <body>
 
-<div id="mainpanel">
+<div id="midcolumn">
     <h3>Database checks</h3>
     <ul id="databaseCheckers">
-        <li>Players</li>
-        <li>Planets</li>
-        <li>Species</li>
-    </ul>
+        <li><button class="fetcher" name="players">Fetch players</button></li>
+        <li><button class="fetcher" name="planets">Fetch Planets</button></li>
+        <li><button class="fetcher" name="species">Fetch species</button></li>
+    </ul><br/><br/>
+
+    <div id="report"></div>
 </div>
 
-<div id="report"></div>
+
 
 <script>
 
     $(()=>{
-        $('#databaseCheckers > li').on('click',(e)=>{
-            let massQuery = e.target.textContent;
+        $('.fetcher').on('click',(e)=>{
+            let massQuery = e.target.name;
             $.ajax({
                 type: 'GET',
-                url: 'fetchlist/'+massQuery,
-                success: (data) => {
-                    data.forEach(element => {
-                        console.log(element.name)
-                    });
+                url: 'fetch/'+massQuery,
+                success: (report) => {
+                    console.log(report)
+                    $('#report').html(report);
                 },
                 error: (err) => {
+                    console.log("ERROR!");
                     if(err) console.log(err);
                 }
             })
