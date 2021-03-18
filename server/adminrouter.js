@@ -1,5 +1,5 @@
 const express = require('express');
-const {Planet, Species, Player} = require('./models.js');
+const {Planet, Species, Player, Civilization} = require('./models.js');
 
 const adminRouter = express.Router();
 
@@ -20,6 +20,10 @@ adminRouter.get('/fetch/:type', async (req, res)=> {
                 report = await Player.find({});
                 res.render('reports/players', {data: report})
                 break;
+            case 'civilizations':
+                    report = await Civilization.find({});
+                    res.render('reports/civilizations', {data: report})
+                    break;
             case 'planets':
                 report = await Planet.find({});
                 res.render('reports/planets', {data: report})

@@ -4,19 +4,22 @@ const http = require('http');
 const path = require('path');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const dotenv = require('dotenv').config();
 
 // My modules
 const requestRouter = require('./router.js');
 const gameRouter = require('./gamerouter.js');
 const adminRouter = require('./adminrouter.js');
 
-// Database
+// Configuration
+const dotenv = require('dotenv').config();
 const dburl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/onsolarsails';
-mongoose.connect(dburl, {useNewUrlParser: true, useUnifiedTopology: true});
+const sessionSecret = process.env.SECRET || 'goldfish';
+const port = process.env.PORT || 2000;
 
 // Server set-up
-console.log(process.env);
+
+mongoose.connect(dburl, {useNewUrlParser: true, useUnifiedTopology: true});
+
 const app = express();
 const clientPath = path.join(__dirname, '/../client/');
 app.use(express.static(path.join(clientPath,'static/')));
@@ -31,7 +34,7 @@ app.use(session({
         secure: false
     },
     key: 'user_sid',
-    secret: process.env.SECRET || 'goldfish',
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
     name: 'onsolarsails'
@@ -42,12 +45,12 @@ app.use((req,res,next)=>{
     next();
 })
 
-app.use('/admin', adminRouter);
-app.use('/game', gameRouter);
+app.use('/admin/', adminRouter);
+app.use('/game/', gameRouter);
 app.use('/', requestRouter);
 
 const server = http.createServer(app);
 
-server.listen(2000, () => {
+server.listen(port, () => {
     console.log("Server running.");
 });
