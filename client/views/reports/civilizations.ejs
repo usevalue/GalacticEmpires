@@ -1,0 +1,10 @@
+<table>
+    <tr>
+        <th>Civilization</th>
+    </tr>
+<% data.forEach((element)=>{ %>
+<tr>
+<td><span style="text-transform: capitalize"><%= element.government.name.full %> (<%= element.government.name.short %>)</span></td>
+</tr>
+<% }) %>
+</table>

@@ -1,0 +1,10 @@
+<table>
+    <tr>
+        <th>Species</th>
+    </tr>
+<% data.forEach((element)=>{ %>
+<tr>
+<td><span style="text-transform: capitalize"><%= element.noun_plural %></span>.  (One <%= element.noun_singular%>, <%= element.adjective %> civilizations)</td>
+</tr>
+<% }) %>
+</table>
