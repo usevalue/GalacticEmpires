@@ -2,8 +2,17 @@
 
 <div class="concernbody">
     
-    A.<br/>
-    B.<br/>
-    C.
-
+    <table>
+        <tr>
+            <th>Planet</th>
+            <th>Size</th>
+        </tr>
+    <% data.forEach((element)=> { %>
+        <tr>
+            <td><%= element.name %></td>
+            <td><%= element.size %></td>
+        </tr>
+    <% }) %>
+    </table>
+    
 </div>

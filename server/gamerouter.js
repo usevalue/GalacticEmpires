@@ -1,7 +1,6 @@
-const e = require('express');
 const express = require('express');
 const path = require('path');
-const {Planet, Civilization, Species} = require('./models.js');
+const {Planet, Civilization, Species} = require('./models/usermodels.js');
 
 //
 // Game requests
@@ -22,6 +21,8 @@ const loggedin = (req, res, next) => {
         res.status(400);
     }
 }
+
+gameRouter.use(loggedin);
 
 const gotCiv = (req, res, next) => {
     if(req.session.civ) {
@@ -51,7 +52,7 @@ const gotCiv = (req, res, next) => {
 }
 
 
-gameRouter.use(loggedin);
+
 
 
 // Navigation
@@ -62,13 +63,33 @@ gameRouter.get('/', gotCiv, async (req, res) => {
 });
 
 gameRouter.get('/concern/:conc', async(req, res) => {
-    try {
-        res.render(path.join('concerns/',req.params.conc), {session: req.session})
-    }
-    catch(e) {
-        console.log(e);
-        res.status(500);
-    }
+        var dataset = [];
+        switch(req.params.conc) {
+            case 'fleets':
+                break;
+            case 'planets':
+                let intel = req.session.civ.government.intelligence;
+                let revised = intel;
+                for(let element of intel) {
+                    console.log(element);
+                    try {
+                        let p = await Planet.findById(element.planet).exec();
+                        let entry = {
+                            'id': p._id,
+                            'name': p.name,
+                            'size': p.size,
+                        }
+                        dataset.push(point);
+                    }
+                    catch(e) {
+                        console.log(e);
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        res.render(path.join('concerns/',req.params.conc), {session: req.session, data: dataset});
 });
 
 //
@@ -101,6 +122,7 @@ gameRouter.post('/newcivilization/newhomeworld', async (req,res) => {
         await newPlanet.save();
         var civ = await Civilization.findOne({player:req.session.userid});
         civ.homeworld = newPlanet._id;
+        civ.government.intelligence.push({planet: newPlanet._id, level: 5});
         await civ.save();
         res.send('SUCCESS');
     }

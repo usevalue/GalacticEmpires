@@ -1,5 +1,5 @@
 const express = require('express');
-const {Player, Civilization} = require('./models.js');
+const {Player, Civilization} = require('./models/usermodels.js');
 const bcrypt = require('bcrypt');
 const salt = 10;
 // Middleware

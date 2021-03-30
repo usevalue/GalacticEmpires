@@ -108,7 +108,7 @@ const intelschema = new mongoose.Schema({
     level: {
         type: Number,
         min: 0,
-        max: 3,
+        max: 5,
     }
 });
 

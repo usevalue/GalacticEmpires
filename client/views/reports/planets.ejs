@@ -2,11 +2,13 @@
     <tr>
         <th>Planet</th>
         <th>Size</th>
+        <th>ID</th>
     </tr>
 <% data.forEach((element)=>{ %>
-<tr>
-<td><%= element.name %></td>
-<td><%= element.size %></td>
-</tr>
+    <tr>
+        <td><%= element.name %></td>
+        <td><%= element.size %></td>
+        <td><%= element._id %></td>
+    </tr>
 <% }) %>
 </table>
