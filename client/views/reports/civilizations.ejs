@@ -2,9 +2,34 @@
     <tr>
         <th>Civilization</th>
     </tr>
+
 <% data.forEach((element)=>{ %>
+
 <tr>
-<td><span style="text-transform: capitalize"><%= element.government.name.full %> (<%= element.government.name.short %>)</span></td>
+<th colspan="2"><span style="text-transform: capitalize"><%= element.government.name.full %> (<%= element.government.name.short %>)</span></th>
+</tr>
+
+<tr>
+    <th>Planet</th>
+    <th>Intel level</th>
+</tr>
+<% element.government.intelligence.forEach((item)=>{ %>
+    <tr>
+        <td><%= item.planet %></td>
+        <td><%= item.level %></td>
+    </tr>
+<% }); %>
+
+<tr>
+<td colspan="2">
+    <form action="setIntel" method="POST">
+        <input type="hidden" name="civilization" value="<%=element._id%>" />
+        Planet ID: <input type="text" name="planetID" /> 
+        Intel level: <input type="number" name="level" style="width: 4em"/>
+        <button type="submit">Update intel</button>
+    </form>
+</td>
 </tr>
 <% }) %>
+
 </table>
